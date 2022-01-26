@@ -1,5 +1,20 @@
+// Beginning Second Stage
+
 const root = document.getElementById('root');
 
+async function updateQty(id, quantity) {
+    let response = await fetch('http://localhost:3001/updateBook', {
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "id": id,
+            "quantity": quantity,
+        }),
+    });
+    let responseText = await response.json();
+}
 
 async function listBooks(element) {
     let response = await fetch('http://localhost:3001/listBooks')
@@ -15,15 +30,12 @@ async function listBooks(element) {
         let btn = document.createElement('button');
         btn.innerText = 'Save';
         btn.addEventListener('click', () => {
-            console.log(`Button ${e.id} was clicked`);
-            console.log(`Input value is ${input.value}`)
-        })
-        li.append(btn)
-        ul.append(li)
+            updateQty(e.id, input.value)
+        });
+        li.append(btn);
+        ul.append(li);
     })
     root.append(ul);
 }
 
 listBooks(root);
-
-
